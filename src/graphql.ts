@@ -1,3 +1,4 @@
+
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -6,21 +7,20 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export interface JWT {
-    jwt: string;
-}
-
-export interface User {
+export interface Album {
     id: string;
-    firstName?: Nullable<string>;
-    secondName?: Nullable<string>;
-    password?: Nullable<string>;
-    email: string;
+    name?: Nullable<string>;
+    released?: Nullable<number>;
+    artists?: Nullable<Nullable<Artist>[]>;
+    bands?: Nullable<Nullable<Band>[]>;
+    tracks?: Nullable<Nullable<Track>[]>;
+    genres?: Nullable<Nullable<Genre>[]>;
+    image?: Nullable<string>;
 }
 
 export interface IQuery {
-    jwt(email: string, password: string): Nullable<JWT> | Promise<Nullable<JWT>>;
-    user(id: string): Nullable<User> | Promise<Nullable<User>>;
+    album(id: string): Nullable<Album> | Promise<Nullable<Album>>;
+    albums(): Nullable<Nullable<Album>[]> | Promise<Nullable<Nullable<Album>[]>>;
     artist(id: string): Nullable<Artist> | Promise<Nullable<Artist>>;
     artists(): Nullable<Nullable<Artist>[]> | Promise<Nullable<Nullable<Artist>[]>>;
     band(id: string): Nullable<Band> | Promise<Nullable<Band>>;
@@ -31,6 +31,8 @@ export interface IQuery {
     genres(limit?: Nullable<number>, offset?: Nullable<number>): Nullable<Nullable<Genre>[]> | Promise<Nullable<Nullable<Genre>[]>>;
     track(id: string): Nullable<Track> | Promise<Nullable<Track>>;
     tracks(limit?: Nullable<number>, offset?: Nullable<number>): Nullable<Nullable<Track>[]> | Promise<Nullable<Nullable<Track>[]>>;
+    jwt(email: string, password: string): Nullable<JWT> | Promise<Nullable<JWT>>;
+    user(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface Artist {
@@ -84,11 +86,24 @@ export interface IMutation {
 export interface Track {
     id: string;
     title: string;
-    bands?: Nullable<Nullable<Band>[]>;
+    album?: Nullable<Album>;
     artists?: Nullable<Nullable<Artist>[]>;
+    bands?: Nullable<Nullable<Band>[]>;
     duration?: Nullable<number>;
     released?: Nullable<number>;
     genres?: Nullable<Nullable<Genre>[]>;
+}
+
+export interface JWT {
+    jwt: string;
+}
+
+export interface User {
+    id: string;
+    firstName?: Nullable<string>;
+    secondName?: Nullable<string>;
+    password?: Nullable<string>;
+    email: string;
 }
 
 type Nullable<T> = T | null;
