@@ -10,6 +10,8 @@ import { BandsModule } from './modules/bands/bands.module';
 import { GenresModule } from './modules/genres/genres.module';
 import { TracksModule } from './modules/tracks/tracks.module';
 import { UsersModule } from './modules/users/users.module';
+import { AlbumsModule } from './modules/albums/albums.module';
+import { FavouritesModule } from './modules/favourites/favourites.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { UsersModule } from './modules/users/users.module';
     BandsModule,
     TracksModule,
     UsersModule,
+    AlbumsModule,
+    FavouritesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
