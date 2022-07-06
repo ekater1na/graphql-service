@@ -1,17 +1,32 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { BandsService } from 'src/modules/bands/services/bands.service';
 import { ArtistsService } from '../services/artists.service';
 
 @Resolver('Artist')
 export class ArtistsResolver {
-  constructor(private readonly artistsService: ArtistsService) {}
+  constructor(
+    private readonly artistsService: ArtistsService,
+    private readonly bandsService: BandsService,
+  ) {}
 
   @Query()
-  async track(@Args('id') id: string) {
+  async artist(@Args('id') id: string) {
     return this.artistsService.findOneById(id);
   }
 
   @Query()
-  async tracks() {
+  async artists() {
     return this.artistsService.findAll();
+  }
+
+  @Resolver()
+  @ResolveField()
+  async bands(@Parent() artist) {
+    const { bandsIds } = artist;
+    return await Promise.all(
+      bandsIds.map((id) => {
+        return this.bandsService.findOneById(id);
+      }),
+    );
   }
 }

@@ -86,7 +86,7 @@ export interface IMutation {
 export interface Track {
     id: string;
     title: string;
-    album?: Nullable<Album>;
+    album?: Nullable<Nullable<Album>[]>;
     artists?: Nullable<Nullable<Artist>[]>;
     bands?: Nullable<Nullable<Band>[]>;
     duration?: Nullable<number>;
