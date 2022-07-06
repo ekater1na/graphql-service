@@ -4,7 +4,6 @@ type Genre {
   description: String
   country: String
   year: Int
-  subGenres: [Genre]
 }
 
 type Query {
@@ -13,5 +12,10 @@ type Query {
 }
 
 type Mutation {
-  createGenre(name: String, description: String, country: String, year: Int): Genre
+  createGenre(
+    name: String
+    description: String
+    country: String
+    year: Int
+  ): Genre
 }

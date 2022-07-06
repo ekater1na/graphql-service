@@ -6,10 +6,8 @@ type Artist {
   birthDate: String
   birthPlace: String
   country: String
-  bands: String
-  instruments: String
-  pseudonims: String
-  labels: String
+  bands: [Band]
+  instruments: [String]
 }
 
 type Query {

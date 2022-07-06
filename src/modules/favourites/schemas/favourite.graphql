@@ -1,13 +1,13 @@
-type Favourite {
+type Favourites {
   id: ID!
-    userId: ID!
-    bands: [ID]
-    genres: [ID]
-    artists: [ID]
-    tracks: [ID]
+  userId: ID
+  bands: [Band]
+  genres: [Genre]
+  artists: [Artist]
+  tracks: [Track]
 }
 
 type Query {
-  favourite(id: ID!): Favourite
-  favourites: [Favourite]
+  favourite(id: ID!): Favourites
+  favourites: [Favourites]
 }
