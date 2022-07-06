@@ -16,13 +16,16 @@ export class AlbumsResolver {
   ) {}
 
   @Query()
-  async album(@Args('id') id: string) {
-    return this.albumsService.findOneById(id);
+  async albums(
+    @Args('limit', { defaultValue: 5 }) limit: number,
+    @Args('offset', { defaultValue: 0 }) offset: number,
+  ) {
+    return this.albumsService.findAll(limit, offset);
   }
 
   @Query()
-  async albums() {
-    return this.albumsService.findAll();
+  async album(@Args('id') id: string) {
+    return this.albumsService.findOneById(id);
   }
 
   @Resolver()

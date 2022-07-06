@@ -16,13 +16,16 @@ export class FavouritesResolver {
   ) {}
 
   @Query()
-  async favourite(@Args('id') id: string) {
-    return this.favouritesService.findOneById(id);
+  async favourites(
+    @Args('limit', { defaultValue: 5 }) limit: number,
+    @Args('offset', { defaultValue: 0 }) offset: number,
+  ) {
+    return this.favouritesService.findAll(limit, offset);
   }
 
   @Query()
-  async favourites() {
-    return this.favouritesService.findAll();
+  async favourite(@Args('id') id: string) {
+    return this.favouritesService.findOneById(id);
   }
 
   @Resolver()

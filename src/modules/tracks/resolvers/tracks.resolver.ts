@@ -1,5 +1,4 @@
 import { Args, Resolver, Query, ResolveField, Parent } from '@nestjs/graphql';
-import { AlbumsService } from 'src/modules/albums/services/albums.service';
 import { ArtistsService } from 'src/modules/artists/services/artists.service';
 import { BandsService } from 'src/modules/bands/services/bands.service';
 import { GenresService } from 'src/modules/genres/services/genres.service';
@@ -15,13 +14,16 @@ export class TracksResolver {
   ) {}
 
   @Query()
-  async track(@Args('id') id: string) {
-    return this.tracksService.findOneById(id);
+  async tracks(
+    @Args('limit', { defaultValue: 5 }) limit: number,
+    @Args('offset', { defaultValue: 0 }) offset: number,
+  ) {
+    return this.tracksService.findAll(limit, offset);
   }
 
   @Query()
-  async tracks() {
-    return this.tracksService.findAll();
+  async track(@Args('id') id: string) {
+    return this.tracksService.findOneById(id);
   }
 
   @Resolver()

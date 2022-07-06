@@ -9,6 +9,6 @@ import { TracksModule } from '../tracks/tracks.module';
 @Module({
   providers: [FavouritesService, FavouritesResolver],
   exports: [FavouritesService],
-  imports: [BandsModule, ArtistsModule, GenresModule, TracksModule]
+  imports: [BandsModule, ArtistsModule, GenresModule, TracksModule],
 })
 export class FavouritesModule {}

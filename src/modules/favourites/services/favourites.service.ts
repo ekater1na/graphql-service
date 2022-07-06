@@ -1,15 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import { Favourites } from 'src/graphql';
 
 @Injectable()
 export class FavouritesService {
-  private favourites: Favourites[] = [];
+  private client;
 
-  findAll(): Favourites[] {
-    return this.favourites;
+  constructor() {
+    this.client = axios.create({
+      baseURL: process.env.FAVOURITES_URL,
+    });
+
+    this.client.interceptors.response.use((res) => {
+      res.data.items = res.data.items?.map((item) => ({
+        ...item,
+        id: item._id,
+      }));
+      return res;
+    });
   }
 
-  findOneById(id: string): Favourites {
-    return this.favourites.find((genre) => genre.id === id);
+  async findAll(limit: number, offset: number): Promise<Favourites[]> {
+    const res = await this.client.get('/', {
+      params: { limit, offset },
+    });
+
+    return res.data.items;
+  }
+
+  async findOneById(id: string): Promise<Favourites> {
+    const res = await this.client.get(`/${id}`);
+    return res.data;
   }
 }

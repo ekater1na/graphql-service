@@ -10,13 +10,16 @@ export class ArtistsResolver {
   ) {}
 
   @Query()
-  async artist(@Args('id') id: string) {
-    return this.artistsService.findOneById(id);
+  async artists(
+    @Args('limit', { defaultValue: 5 }) limit: number,
+    @Args('offset', { defaultValue: 0 }) offset: number,
+  ) {
+    return this.artistsService.findAll(limit, offset);
   }
 
   @Query()
-  async artists() {
-    return this.artistsService.findAll();
+  async artist(@Args('id') id: string) {
+    return this.artistsService.findOneById(id);
   }
 
   @Resolver()

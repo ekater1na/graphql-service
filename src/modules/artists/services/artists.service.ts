@@ -1,15 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import axios, { AxiosInstance } from 'axios';
 import { Artist } from 'src/graphql';
 
 @Injectable()
 export class ArtistsService {
-  private artists: Artist[] = [];
+  private client: AxiosInstance;
 
-  findAll(): Artist[] {
-    return this.artists;
+  constructor() {
+    this.client = axios.create({
+      baseURL: process.env.ARTISTS_URL,
+    });
+
+    this.client.interceptors.response.use((res) => {
+      res.data.items = res.data.items?.map((item) => ({
+        ...item,
+        id: item._id,
+      }));
+      return res;
+    });
   }
 
-  findOneById(id: string): Artist {
-    return this.artists.find((artist) => artist.id === id);
+  async findAll(limit: number, offset: number): Promise<Artist[]> {
+    const res = await this.client.get('/', {
+      params: { limit, offset },
+    });
+
+    return res.data.items;
+  }
+
+  async findOneById(id: string): Promise<Artist> {
+    const res = await this.client.get(`/${id}`);
+    return res.data;
   }
 }

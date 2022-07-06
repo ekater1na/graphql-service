@@ -1,34 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import { Track } from 'src/graphql';
 
 @Injectable()
 export class TracksService {
-  private tracks: Track[] = [
-    {
-      id: '62bc7216ad3ba3a9feac811b',
-      title: 'Hutorianka',
-      bands: [],
-      artists: [],
-      duration: 180,
-      released: 1989,
-      genres: [],
-    },
-    {
-      id: '62bc7236ad3ba3a9feac811d',
-      title: 'Kapitan',
-      bands: [],
-      artists: [],
-      duration: 180,
-      released: 2000,
-      genres: [],
-    },
-  ];
+  private client;
 
-  findAll(): Track[] {
-    return this.tracks;
+  constructor() {
+    this.client = axios.create({
+      baseURL: process.env.TRACKS_URL,
+    });
+
+    this.client.interceptors.response.use((res) => {
+      res.data.items = res.data.items?.map((item) => ({
+        ...item,
+        id: item._id,
+      }));
+      return res;
+    });
   }
 
-  findOneById(id: string): Track {
-    return this.tracks.find((track) => track.id === id);
+  async findAll(limit: number, offset: number): Promise<Track[]> {
+    const res = await this.client.get('/', {
+      params: { limit, offset },
+    });
+
+    return res.data.items;
+  }
+
+  async findOneById(id: string): Promise<Track> {
+    const res = await this.client.get(`/${id}`);
+    return res.data;
   }
 }

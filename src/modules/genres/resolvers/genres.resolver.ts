@@ -6,12 +6,15 @@ export class GenresResolver {
   constructor(private readonly genresService: GenresService) {}
 
   @Query()
-  async genre(@Args('id') id: string) {
-    return this.genresService.findOneById(id);
+  async genres(
+    @Args('limit', { defaultValue: 5 }) limit: number,
+    @Args('offset', { defaultValue: 0 }) offset: number,
+  ) {
+    return this.genresService.findAll(limit, offset);
   }
 
   @Query()
-  async genres() {
-    return this.genresService.findAll();
+  async genre(@Args('id') id: string) {
+    return this.genresService.findOneById(id);
   }
 }
