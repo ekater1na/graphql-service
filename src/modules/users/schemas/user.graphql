@@ -1,13 +1,13 @@
 type JWT {
-  jwt: String!
+  jwt: String
 }
 
 type User {
-   id: ID!
-    firstName: String
-    secondName: String
-    password: String
-    email: String!
+  id: ID!
+  firstName: String
+  secondName: String
+  password: String!
+  email: String!
 }
 
 type Query {

@@ -10,17 +10,14 @@ export class UsersService {
     this.client = axios.create({
       baseURL: process.env.USERS_URL,
     });
-
-    this.client.interceptors.response.use((res) => {
-      res.data.items = res.data.items?.map((item) => ({
-        ...item,
-        id: item._id,
-      }));
-      return res;
-    });
   }
 
-  async findOneById(id: string): Promise<User> {
+  async getJwt(email: string, password: string) {
+    const res = await this.client.post('/login', { email, password });
+    return res.data;
+  }
+
+  async findUserById(id: string): Promise<User> {
     const res = await this.client.get(`/${id}`);
     return res.data;
   }

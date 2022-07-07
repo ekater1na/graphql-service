@@ -6,7 +6,12 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Query()
+  async jwt(@Args('email') email: string, @Args('password') password: string) {
+    return this.usersService.getJwt(email, password);
+  }
+
+  @Query()
   async user(@Args('id') id: string) {
-    return this.usersService.findOneById(id);
+    return this.usersService.findUserById(id);
   }
 }
