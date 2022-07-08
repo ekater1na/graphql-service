@@ -25,7 +25,6 @@ export interface IQuery {
     artists(): Nullable<Nullable<Artist>[]> | Promise<Nullable<Nullable<Artist>[]>>;
     band(id: string): Nullable<Band> | Promise<Nullable<Band>>;
     bands(limit?: Nullable<number>, offset?: Nullable<number>): Nullable<Nullable<Band>[]> | Promise<Nullable<Nullable<Band>[]>>;
-    favourite(id: string): Nullable<Favourites> | Promise<Nullable<Favourites>>;
     favourites(): Nullable<Nullable<Favourites>[]> | Promise<Nullable<Nullable<Favourites>[]>>;
     genre(id: string): Nullable<Genre> | Promise<Nullable<Genre>>;
     genres(limit?: Nullable<number>, offset?: Nullable<number>): Nullable<Nullable<Genre>[]> | Promise<Nullable<Nullable<Genre>[]>>;
@@ -95,14 +94,14 @@ export interface Track {
 }
 
 export interface JWT {
-    jwt: string;
+    jwt?: Nullable<string>;
 }
 
 export interface User {
     id: string;
     firstName?: Nullable<string>;
     secondName?: Nullable<string>;
-    password?: Nullable<string>;
+    password: string;
     email: string;
 }
 

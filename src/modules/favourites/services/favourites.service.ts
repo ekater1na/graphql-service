@@ -8,28 +8,19 @@ export class FavouritesService {
 
   constructor() {
     this.client = axios.create({
-      baseURL: process.env.FAVOURITES_URL,
-    });
-
-    this.client.interceptors.response.use((res) => {
-      res.data.items = res.data.items?.map((item) => ({
-        ...item,
-        id: item._id,
-      }));
-      return res;
+      baseURL: process.env.FAVORITES_URL,
     });
   }
 
-  async findAll(limit: number, offset: number): Promise<Favourites[]> {
-    const res = await this.client.get('/', {
-      params: { limit, offset },
+  async findAll(context): Promise<Favourites[]> {
+    const { authorization } = context.req.headers;
+    const { res } = await this.client.get('/', {
+      headers: {
+        authorization,
+      },
     });
+    console.log(context.req.headers.authorization);
 
-    return res.data.items;
-  }
-
-  async findOneById(id: string): Promise<Favourites> {
-    const res = await this.client.get(`/${id}`);
-    return res.data;
+    return res;
   }
 }

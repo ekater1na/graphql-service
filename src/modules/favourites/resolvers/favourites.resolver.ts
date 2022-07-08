@@ -1,4 +1,10 @@
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Context,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { ArtistsService } from 'src/modules/artists/services/artists.service';
 import { BandsService } from 'src/modules/bands/services/bands.service';
 import { GenresService } from 'src/modules/genres/services/genres.service';
@@ -16,16 +22,8 @@ export class FavouritesResolver {
   ) {}
 
   @Query()
-  async favourites(
-    @Args('limit', { defaultValue: 5 }) limit: number,
-    @Args('offset', { defaultValue: 0 }) offset: number,
-  ) {
-    return this.favouritesService.findAll(limit, offset);
-  }
-
-  @Query()
-  async favourite(@Args('id') id: string) {
-    return this.favouritesService.findOneById(id);
+  async favourites(@Context() context: any) {
+    return this.favouritesService.findAll(context);
   }
 
   @Resolver()
